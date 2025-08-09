@@ -15,6 +15,7 @@
           </button>
         </div>
         <button
+          @click="useCommon().pymentPix = true"
           class="border active:scale-95 text-[var(--primary)] transition-all  rounded shadow-md font-semibold  bg-[var(--background)]">
           <QrCode />
         </button>
@@ -52,11 +53,12 @@
       <div v-if="sidebarOpen" @click="toggleSidebar" class="fixed inset-0 bg-black opacity-50 z-10 md:hidden "></div>
 
       <!-- Main Content -->
-      <main class="flex-1 overflow-auto p-2  bg-[var(--backgroud)]">
+      <main class="flex-1 overflow-auto  bg-[var(--backgroud)]">
         <slot />
       </main>
     </div>
   </div>
+  <PaimentPixComponent/>
 </template>
 
 <script setup lang="ts">
@@ -76,7 +78,7 @@ const verifuserStore = (): boolean => {
 
 
 const listMenuItems = [
-  { label: 'Loja', path: '/dashboard/', icon: Store },
+  { label: 'Loja', path: '/dashboard/loja', icon: Store },
   { label: 'Produtos', path: '/dashboard/products', icon: PackageSearch },
   { label: 'Pedidos', path: '/dashboard/products', icon: ListOrdered },
   { label: 'Chave Pix', path: '/dashboard/pix', icon: KeyRound },

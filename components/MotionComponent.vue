@@ -6,7 +6,7 @@
   >
     <slot v-if="!isCounting" />
     <template v-else>
-      <span>{{ displayedValue }}</span>
+      <span>{{ formattedValue }}</span>
     </template>
   </Motion>
 </template>
@@ -17,6 +17,7 @@ const attrs = useAttrs()
 
 const props = defineProps<{
   animation: 'scale' | 'fade' | 'fade-up' | 'fade-down' | 'slide-left' | 'slide-right',
+  format?: 'money' | 'number' | 'none',
   delay?: number,
   countTo?: number, // <- novo!
   duration?: number // <- duração da contagem animada (em ms)
@@ -81,6 +82,24 @@ const animationConfig = computed(() => animations[props.animation](props.delay |
 const displayedValue = ref(0)
 const isCounting = computed(() => typeof props.countTo === 'number')
 
+const formattedValue = computed(() => {
+  switch (props.format) {
+    case 'money':
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(displayedValue.value)
+    case 'number':
+      return new Intl.NumberFormat('pt-BR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(displayedValue.value)
+    case 'none':
+    default:
+      return displayedValue.value.toString()
+  }
+})
+
 function animateCount(to: number, duration: number) {
   const start = 0
   const startTime = performance.now()
@@ -95,6 +114,8 @@ function animateCount(to: number, duration: number) {
 }
 
 onMounted(() => {
+  
+
   if (isCounting.value && typeof props.countTo === 'number') {
     animateCount(props.countTo, props.duration || 1000)
   }

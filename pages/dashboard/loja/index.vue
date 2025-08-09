@@ -2,7 +2,7 @@
   <div class="w-full min-h-screen flex flex-col ">
     <header class="w-full  mb-2  h-48">
       <div
-        class="w-full rounded-2xl h-full flex items-center justify-center bg-gradient-to-r  text-white text-3xl font-bold from-purple-600 to-indigo-600">
+        class="w-full h-full flex items-center justify-center bg-gradient-to-r  text-white text-3xl font-bold from-purple-600 to-indigo-600">
         <span>asdasd</span>
       </div>
     </header>
@@ -82,6 +82,7 @@ const filterProducts = computed(() => {
 })
 
 onMounted(async () =>{
+  productsStore.GetALLProducts()
   categoryStore.ListCategory()
 })
 

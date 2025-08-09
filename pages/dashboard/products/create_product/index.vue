@@ -1,9 +1,9 @@
 <template>
-  <div class="flex p-1 flex-col w-full h-full bg-[var(--background)]">
+  <div class="flex p-2 flex-col w-full h-full bg-[var(--background)] ">
     <header class="p-4 bg-[var(--popover)] rounded-xl flex items-center  space-x-3 shadow mb-4">
       <button
         type="button"
-        @click="navigateTo('/dashboard/products')"
+        @click="navigateTo('/dashboard/products/create')"
          class="w-10 h-10 flex items-center justify-center  rounded-full bg-[var(--muted)] hover:bg-[var(--accent)] text-[var(--primary)] transition-all active:scale-95" >
          <ArrowBigLeft  :size="22" />
       </button>

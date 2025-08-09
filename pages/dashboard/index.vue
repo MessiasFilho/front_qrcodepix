@@ -1,45 +1,105 @@
 <template>
-  <div class="p-4 space-y-6 w-full h-full flex flex-col">
-    <h1 class="text-2xl font-bold text-gray-800">Dashboard de Vendas</h1>
+  <div class="p-6 space-y-8 w-full h-full flex flex-col bg-gray-50">
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-4 whitespace-nowrap">Dashboard </h1>
 
     <!-- Cards com indicadores principais -->
-    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <MotionComponent animation="slide-right">
-        <div class=" bg-[var(--muted)] border p-1 rounded-md shadow-md">
-           <div class=" flex p-1 justify-center items-center">
-          
-            <span class="whitespace-nowrap text-green-600 uppercase">total de venda</span>
-           </div>
-           <span class="text-4xl text-center">
-             <MotionComponent animation="scale" :countTo="orderStore.dashbord.total_seller" :duration="1500" />      
-             </span>
-           
-
-        </div>
-
-      </MotionComponent>
-
-      <!-- <Motioncomponent animation="slide-left">
-      
-      </Motioncomponent> -->
-
+<div class=" flex flex-col  space-y-2">
+  <!-- CARD VENDA -->
+  <MotionComponent animation="fade-down" :delay="0.5">
+    <div class="bg-white border  border-gray-200 rounded-lg shadow-md flex flex-col items-center justify-center w-full">
+      <div class="flex items-center border-b justify-center w-full p-2">
+        <span class="text-sm font-semibold text-green-700 tracking-wider uppercase">Venda</span>
+      </div>
+      <div class="text-center text-3xl p-2 font-bold text-gray-800 break-words max-w-full">
+        <MotionComponent
+          class="inline-block text-[clamp(1.5rem,3vw,2.5rem)]"
+          animation="scale"
+          :countTo="orderStore.dashbord.total_seller"
+          :duration="1500"
+          format="money"
+        />
+      </div>
     </div>
-
-    <!-- Card com mais e menos vendidos juntos -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <!-- <Motioncomponent animation="fade-down">
-      
-      </Motioncomponent> -->
-
-    
+  </MotionComponent>
+<div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6  ">
+  <MotionComponent animation="slide-right" :delay="1">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-xl flex flex-col items-center justify-center w-full ">
+      <div class="flex items-center border-b justify-start w-full p-2">
+        <span class="text-sm font-semibold text-blue-500 tracking-wider uppercase">Pagos</span>
+      </div>
+      <div class="flex items-center w-full p-4 gap-4">
+        <BanknoteArrowUp class="text-blue-500" :size="40" />
+        <span class="font-bold text-gray-800 text-[clamp(1.5rem,3vw,2.5rem)] break-words">
+          <MotionComponent
+            animation="scale"
+            :countTo="orderStore.dashbord.paid"
+            :duration="2000"
+          />
+        </span>
+      </div>
     </div>
-  
-    
+  </MotionComponent>
+  <MotionComponent animation="slide-left" :delay="1">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-xl flex flex-col items-center justify-center w-full ">
+      <div class="flex items-center border-b justify-start w-full p-2">
+        <span class="text-sm font-semibold tracking-wider uppercase text-amber-500">Estoque</span>
+      </div>
+      <div class="flex items-center w-full p-4 gap-4">
+        <Package class="text-amber-500" :size="40" />
+        <span class="font-bold text-gray-800 text-[clamp(1.5rem,3vw,2.5rem)] break-words">
+          <MotionComponent
+            animation="scale"
+            :countTo="orderStore.dashbord.stock_total"
+            :duration="2000"
+          />
+        </span>
+      </div>
+    </div>
+  </MotionComponent>
+  <MotionComponent animation="slide-right" :delay="1.3">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-xl flex flex-col items-center justify-center w-full ">
+      <div class="flex items-center border-b justify-start w-full p-2">
+        <span class="text-sm font-semibold tracking-wider uppercase text-red-500">Cancelados</span>
+      </div>
+      <div class="flex items-center w-full p-4 gap-4">
+        <BanknoteX class="text-red-500" :size="40" />
+        <span class="font-bold text-gray-800 text-[clamp(1.5rem,3vw,2.5rem)] break-words">
+          <MotionComponent
+            animation="scale"
+            :countTo="orderStore.dashbord.cancelled"
+            :duration="2000"
+          />
+        </span>
+      </div>
+    </div>
+  </MotionComponent>
+  <MotionComponent animation="slide-left" :delay="1.3">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-xl flex flex-col items-center justify-center w-full ">
+      <div class="flex items-center border-b justify-start w-full p-2">
+        <span class="text-sm font-semibold tracking-wider uppercase text-yellow-400">Pedidos</span>
+      </div>
+      <div class="flex items-center w-full p-4 gap-4">
+        <ArrowDownUp   class="text-yellow-400" :size="40" />
+        <span class="font-bold text-gray-800 text-[clamp(1.5rem,3vw,2.5rem)] break-words">
+          <MotionComponent
+            animation="scale"
+            :countTo="orderStore.dashbord.pending"
+            :duration="2000"
+          />
+        </span>
+      </div>
+    </div>
+  </MotionComponent>
+</div>
+   
+</div>
+ <PaimentPixComponent/>
   </div>
 </template>
 
+
 <script setup lang="ts">
-import { PiggyBank,CircleDollarSign  } from 'lucide-vue-next';
+import { Package, BanknoteArrowUp, BanknoteX, ArrowDownUp } from 'lucide-vue-next';
 import { useOrder } from '~/store/order';
 import { useProducts } from '~/store/products';
 

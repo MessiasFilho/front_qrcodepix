@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div class="flex flex-col h-screen bg-[var(--background)] text-[var(--foreground)] p-3">
        <MotionComponent animation="fade-down" class="sticky top-0 z-10">
        
             <header class="bg-[var(--popover)]   shadow p-3 w-full rounded-sm flex flex-col items-center">

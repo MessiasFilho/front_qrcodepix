@@ -1,5 +1,5 @@
 <template>
-  <div class="flex p-1 flex-col w-full h-full bg-[var(--background)]">
+  <div class="flex p-2 flex-col w-full h-full bg-[var(--background)]">
     <header class="p-4 bg-[var(--popover)] rounded-xl flex items-center space-x-3 shadow mb-4">
       <button
         type="button"
