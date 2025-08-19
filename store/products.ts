@@ -3,7 +3,7 @@ export interface Product_Interface {
   description: string;
   value: Number;
   stock_quantity: Number;
-  imagens: string;
+  imagens: []
 }
 
 export interface ProductResponse {
@@ -12,12 +12,14 @@ export interface ProductResponse {
   description: string;
   value: number;
   stock_quantity: number;
-  images: string;
+  images: string [] ;
   category_id: number;
   category_name: string;
   created_at: string;  
   updated_at: string;  
 }
+
+
 
 export interface GetProductResponse extends Product_Interface {
   id: number;
@@ -32,26 +34,38 @@ export const useProducts = defineStore("useProducts", {
 
     products: [] as ProductResponse [], 
     proCateg: [] as GetProductResponse[], 
-    product: {} as Product_Interface
+    product: {} as Product_Interface, 
   }),
   actions: {
 
 
-    async CreateProduct(prod: Product_Interface, id: number) {
-      const { data, error } = await useFetch(`products/add-item/${id}`, {
-        method: "post",
+   async CreateProduct(categoryId: number, payload: {
+      name: string
+      description: string
+      value: number
+      stock_quantity: number
+      files?: File[]
+    }) {
+      const fd = new FormData()
+      fd.append('name', payload.name)
+      fd.append('description', payload.description)
+      fd.append('value', String(payload.value))
+      fd.append('stock_quantity', String(payload.stock_quantity))
+      if (payload.files?.length) {
+        for (const f of payload.files) {
+          fd.append('imagens', f) // mesma chave do backend
+        }
+      }
+      const { data, error } = await useFetch(`products/add-item/${categoryId}`, {
+        method: 'POST',
         baseURL: useRuntimeConfig().public.backend,
-        headers: { authorization: `Bearer ${localStorage.getItem("login")}` },
-        body: {...prod} ,
-      });
-
-      if (error.value) {
-        console.log("erro ao cria produto");
-      }
-      if (data.value) {
-        console.log("sucesso ao cria produto");
-      }
+        headers: { Authorization: `Bearer ${localStorage.getItem('login')}` },
+        body: fd,
+      })
+      if (error.value) throw error.value
+      return data.value
     },
+
 
     async GetALLProducts() {
 

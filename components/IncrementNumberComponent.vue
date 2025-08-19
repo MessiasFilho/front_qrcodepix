@@ -1,38 +1,39 @@
 <template>
-    <div>
-        <NumberField :min="0"  :max="item.stock_quantity" :default-value="0" v-model="amount" >
-            <NumberFieldContent>
-                <NumberFieldDecrement />
-                <NumberFieldInput  />
-                <NumberFieldIncrement />
-            </NumberFieldContent>
-        </NumberField>
-    </div>
+  <div>
+    <NumberField
+      :min="0"
+      :max="max ?? 0"
+      v-model="innerValue"
+    >
+      <NumberFieldContent>
+        <NumberFieldDecrement />
+        <NumberFieldInput />
+        <NumberFieldIncrement />
+      </NumberFieldContent>
+    </NumberField>
+  </div>
 </template>
 
 <script setup lang="ts">
-
-const amount = ref()
-
 const props = defineProps<{
-    item: {
-    id: number
-    name: string
-    value: number
-    stock_quantity: number
-  }
+  modelValue?: number
+  max?: number
 }>()
 
 const emit = defineEmits<{
-    (e: 'update_stock',id: number, value: number ): void
+  (e: 'update:modelValue', value: number): void
 }>()
 
-watch(amount, (val) => {
-  emit('update_stock', props.item.id, val)
+// valor interno controlado pelo pai
+const innerValue = ref<number>(props.modelValue ?? 0)
+
+// mantém sincronizado quando o pai muda
+watch(() => props.modelValue, (v) => {
+  innerValue.value = v ?? 0
 })
 
+// emite quando o usuário altera
+watch(innerValue, (v) => {
+  emit('update:modelValue', Number(v) || 0)
+})
 </script>
-
-<style scoped>
-
-</style>

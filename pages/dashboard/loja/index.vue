@@ -6,7 +6,7 @@
         <span>asdasd</span>
       </div>
     </header>
-    <div class="bg-gray-100 rounded-md">
+    <div class="bg-gray-100 rounded-md p-2">
 
       <div class="flex  items-center  bg-white rounded-t-md p-2 h-full ">
         <input v-model="search" class="w-full outline-none border p-1 rounded-md" type="text" placeholder="buscar produtos">
@@ -39,6 +39,7 @@
           <h3 class="font-semibold text-lg text-gray-800">{{ product.name }}</h3>
           <p class="text-sm text-gray-500 mb-2">{{ product.description }}</p>
           <p class="font-bold text-indigo-600">R$ {{ product.value }} R$</p>
+          <code>{{ product.images }}</code>
         </div>
       </div>
     </div>
@@ -50,6 +51,7 @@
 
 <script setup lang="ts">
 
+import { number } from 'motion-v';
 import { useCategory } from '~/store/category';
 import { useProducts } from '~/store/products';
 import { useStore } from '~/store/store';

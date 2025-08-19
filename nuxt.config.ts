@@ -1,15 +1,15 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-
-  css: ['~/assets/css/main.css'],
+ css: ['~/assets/css/main.css'],
  modules: ['shadcn-nuxt', '@pinia/nuxt', 'motion-v/nuxt', ],
- 
+ devtools:{enabled: false},
  runtimeConfig:{
   public: {
     backend:'http://localhost:4041/',
  },
-},
+},  
+
 
   shadcn: {
     /**

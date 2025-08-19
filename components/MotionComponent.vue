@@ -23,9 +23,6 @@ const props = defineProps<{
   duration?: number // <- duração da contagem animada (em ms)
 }>()
 
-console.log();
-
-
 const animations = {
   scale: (delay = 0) => ({
     initial: { opacity: 0, scale: 0.8 },
