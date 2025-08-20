@@ -35,6 +35,7 @@ export const useProducts = defineStore("useProducts", {
     products: [] as ProductResponse [], 
     proCateg: [] as GetProductResponse[], 
     product: {} as Product_Interface, 
+    productresp:{} as ProductResponse
   }),
   actions: {
 
@@ -65,8 +66,6 @@ export const useProducts = defineStore("useProducts", {
       if (error.value) throw error.value
       return data.value
     },
-
-
     async GetALLProducts() {
 
       this.products = []
@@ -124,6 +123,19 @@ export const useProducts = defineStore("useProducts", {
       return false
     }, 
     
+    async GetProductByHashId (hash: string,id: number) {
+        const { data, error } = await useFetch<ProductResponse>(`products/${hash}/${id}`, {
+        method: "get",
+        baseURL: useRuntimeConfig().public.backend,
+      });
+        if (error.value) {
+        console.log("erro ao cria produto");
+      }
+      if (data.value) {
+        this.productresp = data.value
+      }
+
+    }, 
     async GetProductById (id: number) {
         const { data, error } = await useFetch<Product_Interface>(`products/get-item/${id}`, {
         method: "get",

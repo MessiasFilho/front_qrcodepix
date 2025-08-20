@@ -12,16 +12,16 @@
 </template>
 
 <script setup lang="ts">
-
-const attrs = useAttrs()
+const attrs = useAttrs();
 
 const props = defineProps<{
-  animation: 'scale' | 'fade' | 'fade-up' | 'fade-down' | 'slide-left' | 'slide-right',
-  format?: 'money' | 'number' | 'none',
-  delay?: number,
-  countTo?: number, // <- novo!
-  duration?: number // <- duração da contagem animada (em ms)
-}>()
+  animation: "scale" | "fade" | "fade-up" | "fade-down" | "slide-left" | "slide-right";
+  format?: "money" | "number" | "none";
+  delay?: number;
+  countTo?: number; // <- novo!
+  duration?: number; // <- duração da contagem animada (em ms)
+  animDuration?: number;
+}>();
 
 const animations = {
   scale: (delay = 0) => ({
@@ -29,92 +29,90 @@ const animations = {
     enter: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.4, delay }
-    }
+      transition: { duration: 0.6, delay },
+    },
   }),
   fade: (delay = 0) => ({
     initial: { opacity: 0 },
     enter: {
       opacity: 1,
-      transition: { duration: 0.4, delay }
-    }
+      transition: { duration: 0.6, delay },
+    },
   }),
-  'fade-up': (delay = 0) => ({
+  "fade-up": (delay = 0) => ({
     initial: { opacity: 0, y: 20 },
     enter: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, delay }
-    }
+      transition: { duration: 0.6, delay },
+    },
   }),
-  'fade-down': (delay = 0) => ({
+  "fade-down": (delay = 0) => ({
     initial: { opacity: 0, y: -20 },
     enter: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, delay }
-    }
+      transition: { duration: 0.6, delay },
+    },
   }),
-  'slide-left': (delay = 0) => ({
+  "slide-left": (delay = 0) => ({
     initial: { opacity: 0, x: 50 },
     enter: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.4, delay }
-    }
+      transition: { duration: 0.6, delay },
+    },
   }),
-  'slide-right': (delay = 0) => ({
+  "slide-right": (delay = 0) => ({
     initial: { opacity: 0, x: -50 },
     enter: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.4, delay }
-    }
-  })
-}
+      transition: { duration: 0.6, delay },
+    },
+  }),
+};
 
-const animationConfig = computed(() => animations[props.animation](props.delay || 0))
+const animationConfig = computed(() => animations[props.animation](props.delay || 0));
 
 // Lógica do contador animado
-const displayedValue = ref(0)
-const isCounting = computed(() => typeof props.countTo === 'number')
+const displayedValue = ref(0);
+const isCounting = computed(() => typeof props.countTo === "number");
 
 const formattedValue = computed(() => {
   switch (props.format) {
-    case 'money':
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(displayedValue.value)
-    case 'number':
-      return new Intl.NumberFormat('pt-BR', {
+    case "money":
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(displayedValue.value);
+    case "number":
+      return new Intl.NumberFormat("pt-BR", {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      }).format(displayedValue.value)
-    case 'none':
+        maximumFractionDigits: 0,
+      }).format(displayedValue.value);
+    case "none":
     default:
-      return displayedValue.value.toString()
+      return displayedValue.value.toString();
   }
-})
+});
 
 function animateCount(to: number, duration: number) {
-  const start = 0
-  const startTime = performance.now()
+  const start = 0;
+  const startTime = performance.now();
   const frame = (now: number) => {
-    const progress = Math.min((now - startTime) / duration, 1)
-    displayedValue.value = Math.floor(start + (to - start) * progress)
+    const progress = Math.min((now - startTime) / duration, 1);
+    displayedValue.value = Math.floor(start + (to - start) * progress);
     if (progress < 1) {
-      requestAnimationFrame(frame)
+      requestAnimationFrame(frame);
     }
-  }
-  requestAnimationFrame(frame)
+  };
+  requestAnimationFrame(frame);
 }
 
 onMounted(() => {
-  
-
-  if (isCounting.value && typeof props.countTo === 'number') {
-    animateCount(props.countTo, props.duration || 1000)
+  if (isCounting.value && typeof props.countTo === "number") {
+    animateCount(props.countTo, props.duration || 1000);
   }
-})
+});
 </script>

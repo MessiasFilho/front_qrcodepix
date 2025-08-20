@@ -10,7 +10,8 @@ export const useCommon = defineStore('useCommon', {
         CategoryId : 0, 
         nameProd : '',
         nameCategory: '',
-        pymentPix: false
+        pymentPix: false, 
+        product_ID: 0,
     }),
        
 })
